@@ -5,7 +5,7 @@
  *   const client = new ForecastrClient({
  *     rpcUrl:          "https://mainnet.base.org",
  *     privateKey:      process.env.AGENT_KEY as `0x${string}`,
- *     contractAddress: "0xc7c57875e96E86A741593c51195D7912972Fe655",
+ *     contractAddress: "0xDc3eBf3cC1542180F6d9d89aeF8A5768b0BcB936",
  *     apiKey:          process.env.FORECASTR_API_KEY,
  *   });
  *
@@ -77,6 +77,20 @@ const FORECASTR_SLA_ABI = [
     inputs: [{ name: "id", type: "uint256" }],
     name: "getStatus",
     outputs: [{ name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ name: "id", type: "uint256" }],
+    name: "cancelSLA",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ name: "deadline_offset", type: "uint256" }],
+    name: "minEscrow",
+    outputs: [{ name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
