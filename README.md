@@ -14,13 +14,13 @@ No subscription. No invoice. Pay per inference settled.
 ## Install
 
 ```bash
-npm install @forecastr/sdk viem
+npm install @forecastrdev/sdk viem
 ```
 
 ## Usage
 
 ```typescript
-import { ForecastrClient } from "@forecastr/sdk";
+import { ForecastrClient } from "@forecastrdev/sdk";
 
 const client = new ForecastrClient({
   rpcUrl:          "https://mainnet.base.org",
@@ -59,7 +59,7 @@ console.log(result.slaId);         // on-chain SLA ID
 Python and TypeScript produce identical hashes — cross-language verified:
 
 ```typescript
-import { forecastrInputHash, forecastrOutputHash } from "@forecastr/sdk";
+import { forecastrInputHash, forecastrOutputHash } from "@forecastrdev/sdk";
 
 // Verified against Python backend:
 // forecastrInputHash("/forecast", payload)

@@ -1,5 +1,5 @@
 {
-  "name": "@forecastr/sdk",
+  "name": "@forecastrdev/sdk",
   "version": "0.1.0",
   "description": "Trustless AI inference with on-chain SLA settlement",
   "type": "module",
