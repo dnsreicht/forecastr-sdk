@@ -1,6 +1,6 @@
 {
   "name": "@forecastrdev/sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Trustless AI inference with on-chain SLA settlement",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,6 +23,12 @@
     "tsx": "^4.0.0",
     "typescript": "^5.0.0"
   },
-  "keywords": ["forecastr", "ai", "sla", "base", "blockchain"],
+  "keywords": [
+    "forecastr",
+    "ai",
+    "sla",
+    "base",
+    "blockchain"
+  ],
   "license": "MIT"
 }
