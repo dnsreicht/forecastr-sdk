@@ -1,6 +1,6 @@
 {
   "name": "@forecastrdev/sdk",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Trustless AI inference with on-chain SLA settlement",
   "type": "module",
   "main": "./dist/index.js",
