@@ -23,7 +23,6 @@ import {
   parseUnits,
   getContract,
   type WalletClient,
-  type PublicClient,
   type Address,
   type Hash,
 } from "viem";
@@ -158,9 +157,12 @@ export interface ForecastResult {
 
 export class ForecastrClient {
   private wallet: WalletClient;
-  private public: PublicClient;
-  private contract: ReturnType<typeof getContract>;
-  private usdc: ReturnType<typeof getContract>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private public: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private contract: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private usdc: any;
   private config: ForecastrClientConfig;
 
   constructor(config: ForecastrClientConfig) {
@@ -226,7 +228,7 @@ export class ForecastrClient {
     const actualSlaId = nextId - 1n;
 
     // 4. Call Forecastr API
-    const apiUrl = this.config.apiUrl ?? "https://api.forecastr.dev"\;
+    const apiUrl = this.config.apiUrl ?? "https://api.forecastr.dev";
     const response = await fetch(`${apiUrl}/agent/forecast`, {
       method: "POST",
       headers: {
