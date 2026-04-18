@@ -1,7 +1,7 @@
 {
   "name": "@forecastrdev/sdk",
-  "version": "0.2.0",
-  "description": "Verifiable AI forecast proofs \u2014 RFC 3161 + Base Mainnet. BYOM or managed inference.",
+  "version": "0.2.1",
+  "description": "Verifiable AI forecast proofs — RFC 3161 + Base Mainnet. BYOM or managed inference.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
