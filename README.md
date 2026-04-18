@@ -1,15 +1,9 @@
 # @forecastrdev/sdk
 
-TypeScript SDK for trustless AI inference with on-chain SLA settlement on Base Mainnet.
+TypeScript SDK for verifiable AI forecast proofs on Base Mainnet.
 
-## How it works
-
-1. Agent locks USDC escrow on-chain via `ForecastrSLA`
-2. Forecastr runs inference, commits output hash on-chain
-3. Agent verifies hash locally, confirms on-chain
-4. After 6h challenge window, escrow releases to Forecastr automatically
-
-No subscription. No invoice. Pay per inference settled.
+Bring your own model. Forecastr anchors the proof — RFC 3161 timestamp + on-chain registry.
+No escrow. No subscription. Gas only.
 
 ## Install
 
@@ -17,43 +11,85 @@ No subscription. No invoice. Pay per inference settled.
 npm install @forecastrdev/sdk viem
 ```
 
-## Usage
+## Use cases
+
+### 1. BYOM — Submit your own model output for proof
+
+Run inference with any model. Submit the output hash. Forecastr commits it on-chain with an RFC 3161 timestamp.
 
 ```typescript
 import { ForecastrClient } from "@forecastrdev/sdk";
 
 const client = new ForecastrClient({
-  rpcUrl:          "https://mainnet.base.org",
-  privateKey:      process.env.AGENT_KEY as `0x${string}`,
-  contractAddress: "0xDc3eBf3cC1542180F6d9d89aeF8A5768b0BcB936",
-  apiKey:          process.env.FORECASTR_API_KEY,
+  apiKey:     process.env.FORECASTR_API_KEY,
+  // Optional: provide wallet to also register on-chain
+  rpcUrl:     "https://mainnet.base.org",
+  privateKey: process.env.AGENT_KEY as `0x${string}`,
 });
 
+const result = await client.submitProof({
+  asset:          "brent-crude",
+  horizon:        7,
+  pointForecast:  [82.1, 82.4, 82.8, 83.1, 83.0, 82.7, 82.5],
+  contextHash:    "sha256-of-your-input-data",
+  registerOnChain: true,
+  dueTimestamp:   Math.floor(Date.now() / 1000) + 7 * 86400,
+});
+
+console.log(result.resultHash);     // SHA-256 of your output
+console.log(result.verifyUrl);      // forecastr.dev/verify/hash/...
+console.log(result.onChainTxHash);  // Base Mainnet tx
+```
+
+### 2. Managed inference — TimesFM / Chronos with automatic proof
+
+```typescript
 const result = await client.forecast({
   asset:   "aave",
   horizon: 7,
   values:  [...],
-  escrow:  "0.057",
+  registerOnChain: true,
+  dueTimestamp:    Math.floor(Date.now() / 1000) + 7 * 86400,
 });
 
 console.log(result.pointForecast);
-console.log(result.verified);
-console.log(result.slaId);
+console.log(result.verifyUrl);
+console.log(result.onChainTxHash);
 ```
 
-## Contract
+### 3. Batch registration (Pro tier)
+
+```typescript
+const txHash = await client.registerProofBatch([
+  { resultHash: "abc123...", dueTimestamp: 1800000000 },
+  { resultHash: "def456...", dueTimestamp: 1800086400 },
+]);
+```
+
+### 4. Verify on-chain
+
+```typescript
+const isRegistered = await client.isRegistered("abc123...");
+const proof = await client.getOnChainProof("abc123...");
+console.log(proof.registrant, proof.registeredAt, proof.dueTimestamp);
+```
+
+## Proof Contract
 
 | | |
 |---|---|
 | Network | Base Mainnet (8453) |
-| Address | `0xDc3eBf3cC1542180F6d9d89aeF8A5768b0BcB936` |
-| Token | USDC |
-| Min escrow | 0.057 USDC (7d) · 0.080 USDC (30d) · 0.306 USDC (256d) |
-| Pricing | 0.05 USDC base + 0.001 USDC/day |
-| Challenge window | 6 hours |
-| Settlement | Automatic, permissionless |
+| Address | `0x6b9056EcE5D4C267d8d8959ce3A16f72C8933631` |
+| Fee | None — gas only |
+| Admin | None — immutable |
+| Batch size | 50 max |
+| Max horizon | 5 years |
 
-[View on Basescan](https://basescan.org/address/0xDc3eBf3cC1542180F6d9d89aeF8A5768b0BcB936)
+[View on Basescan](https://basescan.org/address/0x6b9056EcE5D4C267d8d8959ce3A16f72C8933631)
+
+## API Key
+
+Free tier: 50 requests/day — [forecastr.dev](https://forecastr.dev)
 
 ## License
 
