@@ -1,7 +1,7 @@
 {
   "name": "@forecastrdev/sdk",
-  "version": "0.1.4",
-  "description": "Trustless AI inference with on-chain SLA settlement",
+  "version": "0.2.0",
+  "description": "Verifiable AI forecast proofs \u2014 RFC 3161 + Base Mainnet. BYOM or managed inference.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -26,9 +26,12 @@
   "keywords": [
     "forecastr",
     "ai",
-    "sla",
+    "proof",
     "base",
-    "blockchain"
+    "blockchain",
+    "rfc3161",
+    "byom",
+    "forecast"
   ],
   "license": "MIT"
 }
